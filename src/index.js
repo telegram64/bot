@@ -277,6 +277,45 @@ function stocksKeyboard() {
   };
 }
 
+// ===================== Channel Links =====================
+
+const CHANNEL_LINKS = {
+  // Forex Major
+  "EURUSD": "https://t.me/EURUSD_TickData",
+  "GBPUSD": "https://t.me/EURUSD_TickData",
+  "AUDUSD": "https://t.me/AUDUSD_TICKDATA",
+  "NZDUSD": "https://t.me/NZDUSD_TICKDATA",
+  "USDCAD": "https://t.me/USDCAD_TICKDATA",
+  "USDJPY": "https://t.me/USDJPY_TICKDATA",
+  "USDCHF": "https://t.me/USDCHF_TICKDATA",
+
+  // Crypto
+  "BTCUSD": "https://t.me/BTCUSD_TICKDATA",
+  "ETHUSD": "https://t.me/ETHUSD_TICKDATA",
+
+  // Energy
+  "Gas oil": "https://t.me/GASOIL_TICKDATA",
+  "US Brent Crude Oil": "https://t.me/brentoil_tickdata",
+  "US Light Crude Oil": "https://t.me/lightcmdusd_TickData",
+  "Natural Gas": "https://t.me/gascmdusd_TICKDATA",
+
+  // Metals
+  "GOLD": "https://t.me/XAUUSD_TICKDATA",
+  "SILVER": "https://t.me/XAGUSD_TICKDATA",
+
+  // Indices
+  "US Dollar Index": "https://t.me/US_Dollar_Index_TickData",
+  "USA 30 Index": "https://t.me/USA30Index_TickData",
+  "USA 100 Index": "https://t.me/us100index_Tickdata",
+  "USA 500 Index": "https://t.me/USA500Index_TickData",
+
+  // Stocks
+  "APPLE INC": "https://t.me/APPLE_Tickdata",
+  "AMAZON": "https://t.me/+LbpEtwR3ldkzYjNk",
+  "GOOGLE": "https://t.me/+eyBV9WXZY5szZWZk",
+  "JPMORGAN": "https://t.me/+bcUxbhH0rDA5MDA0"
+};
+
 // ===================== Telegram Helper =====================
 
 async function telegram(env, method, body) {
@@ -606,6 +645,19 @@ async function handleMessage(env, message) {
       chat_id: chatId,
       text: "📊 سایر\n\nاین بخش فعلاً خالی است.",
       reply_markup: instrumentsKeyboardPersian()
+    });
+    return;
+  }
+
+  // =========================
+  // Channel Links (Instruments)
+  // =========================
+
+  if (CHANNEL_LINKS[text]) {
+    await telegram(env, "sendMessage", {
+      chat_id: chatId,
+      text: `🔗 کانال مربوط به ${text}:\n\n${CHANNEL_LINKS[text]}\n\nبرای ورود روی لینک بالا کلیک کنید.`,
+      disable_web_page_preview: false
     });
     return;
   }
