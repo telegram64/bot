@@ -370,22 +370,6 @@ async function sendPersianInstruments(env, chatId) {
   });
 }
 
-async function sendEnglishHelp(env, chatId) {
-  return telegram(env, "sendMessage", {
-    chat_id: chatId,
-    text: "📚 Help\n\nUse the buttons below to navigate through the bot.\n\n📊 Instruments — trading instruments\n📰 News — news section\n🌐 Language — language selection\n🆘 Support — support information",
-    reply_markup: backKeyboardEnglish()
-  });
-}
-
-async function sendPersianHelp(env, chatId) {
-  return telegram(env, "sendMessage", {
-    chat_id: chatId,
-    text: "📚 راهنما\n\nاز دکمه‌های منو برای استفاده از بات استفاده کنید.\n\n📊 ابزارها — ابزارهای معاملاتی\n📰 اخبار — بخش اخبار\n🌐 زبان — انتخاب زبان\n🆘 پشتیبانی — اطلاعات پشتیبانی",
-    reply_markup: backKeyboardPersian()
-  });
-}
-
 async function sendEnglishSupport(env, chatId) {
   return telegram(env, "sendMessage", {
     chat_id: chatId,
@@ -444,7 +428,34 @@ async function handleMessage(env, message) {
   }
 
   if (text === "📚 Help") {
-    await sendEnglishHelp(env, chatId);
+    const helpText = `
+📚 <b>How to use the Bot</b>
+
+1️⃣ <b>Instruments</b>
+• Choose a category (Forex Major, Crypto, Energy, Metals, Indices, Stocks)
+• Then select the instrument you want
+• You will receive the channel link to download Tick Data
+
+2️⃣ <b>News</b>
+• Get the latest Forex Factory Economic Calendar
+• Click the download button to get the CSV file
+
+3️⃣ <b>Language</b>
+• Switch between English and فارسی
+
+4️⃣ <b>Support</b>
+• Contact the administrator if you need help
+
+━━━━━━━━━━━━━━━━
+🔄 You can always use the <b>Back</b> or <b>Main Menu</b> buttons to navigate.
+`;
+
+    await telegram(env, "sendMessage", {
+      chat_id: chatId,
+      text: helpText,
+      parse_mode: "HTML",
+      reply_markup: backKeyboardEnglish()
+    });
     return;
   }
 
@@ -506,7 +517,34 @@ async function handleMessage(env, message) {
   }
 
   if (text === "📚 راهنما") {
-    await sendPersianHelp(env, chatId);
+    const helpText = `
+📚 <b>راهنمای استفاده از ربات</b>
+
+1️⃣ <b>ابزارها (Instruments)</b>
+• ابتدا دسته‌بندی مورد نظر را انتخاب کنید (فارکس میجر، کریپتو، انرژی، فلزات، شاخص‌ها، سهام)
+• سپس ابزار مورد نظر را انتخاب کنید
+• لینک کانال مربوط به دانلود تیک‌دیتا برای شما ارسال می‌شود
+
+2️⃣ <b>اخبار (News)</b>
+• آخرین تقویم اقتصادی فارکس فکتوری را دریافت کنید
+• با زدن دکمه دانلود، فایل CSV را دریافت کنید
+
+3️⃣ <b>زبان (Language)</b>
+• امکان تغییر زبان بین انگلیسی و فارسی
+
+4️⃣ <b>پشتیبانی (Support)</b>
+• در صورت نیاز به راهنمایی با ادمین در ارتباط باشید
+
+━━━━━━━━━━━━━━━━
+🔄 همیشه می‌توانید از دکمه‌های <b>بازگشت</b> یا <b>منوی اصلی</b> برای جابجایی استفاده کنید.
+`;
+
+    await telegram(env, "sendMessage", {
+      chat_id: chatId,
+      text: helpText,
+      parse_mode: "HTML",
+      reply_markup: backKeyboardPersian()
+    });
     return;
   }
 
