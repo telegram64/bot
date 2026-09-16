@@ -125,6 +125,31 @@ function instrumentsKeyboard() {
   };
 }
 
+function instrumentsKeyboard() {
+  return {
+    keyboard: [
+      [
+        { text: "Forex Major" },
+        { text: "Crypto" }
+      ],
+      [
+        { text: "Energy" },
+        { text: "Metals" }
+      ],
+      [
+        { text: "Indices" },
+        { text: "Stocks" }
+      ],
+      [
+        { text: "🔙 Back" },
+        { text: "🏠 Main Menu" }
+      ]
+    ],
+    resize_keyboard: true,
+    is_persistent: true
+  };
+}
+
 function instrumentsKeyboardPersian() {
   return {
     keyboard: [
@@ -139,9 +164,6 @@ function instrumentsKeyboardPersian() {
       [
         { text: "شاخص‌ها" },
         { text: "سهام" }
-      ],
-      [
-        { text: "سایر" }
       ],
       [
         { text: "🔙 بازگشت" },
