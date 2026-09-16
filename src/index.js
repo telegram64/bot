@@ -1,5 +1,8 @@
 const MAIN_TEXT = "🏠 Main Menu\n\nPlease select an option:";
 
+// Temporary language storage (will be replaced with KV later)
+const userLanguage = new Map();
+
 function mainKeyboard() {
   return {
     keyboard: [
@@ -473,11 +476,13 @@ async function handleMessage(env, message) {
   // =========================
 
   if (text === "🇬🇧 English") {
+    userLanguage.set(chatId, "en");
     await sendMainMenu(env, chatId);
     return;
   }
 
   if (text === "🇮🇷 فارسی") {
+    userLanguage.set(chatId, "fa");
     await sendPersianMainMenu(env, chatId);
     return;
   }
@@ -654,9 +659,19 @@ async function handleMessage(env, message) {
   // =========================
 
   if (CHANNEL_LINKS[text]) {
+    const lang = userLanguage.get(chatId) || "fa"; // پیش‌فرض فارسی
+
+    let messageText = "";
+
+    if (lang === "en") {
+      messageText = `Channel for downloading data of ${text}:\n\n${CHANNEL_LINKS[text]}\n\nClick the link above to join.`;
+    } else {
+      messageText = `کانال مربوط به دانلود دیتای ${text}:\n\n${CHANNEL_LINKS[text]}\n\nبرای ورود روی لینک بالا کلیک کنید.`;
+    }
+
     await telegram(env, "sendMessage", {
       chat_id: chatId,
-      text: `🔗 کانال مربوط به ${text}:\n\n${CHANNEL_LINKS[text]}\n\nبرای ورود روی لینک بالا کلیک کنید.`,
+      text: messageText,
       disable_web_page_preview: false
     });
     return;
