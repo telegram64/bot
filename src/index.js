@@ -96,6 +96,40 @@ function languageKeyboardPersian() {
   };
 }
 
+function instrumentsKeyboard() {
+  return {
+    keyboard: [
+      [{ text: "Forex Major" }],
+      [{ text: "Crypto" }],
+      [{ text: "Energy" }],
+      [{ text: "Metals" }],
+      [{ text: "Indices" }],
+      [{ text: "Stocks" }],
+      [{ text: "Other" }],
+      [{ text: "🔙 Back" }]
+    ],
+    resize_keyboard: true,
+    is_persistent: true
+  };
+}
+
+function instrumentsKeyboardPersian() {
+  return {
+    keyboard: [
+      [{ text: "فارکس میجر" }],
+      [{ text: "کریپتو" }],
+      [{ text: "انرژی" }],
+      [{ text: "فلزات" }],
+      [{ text: "شاخص‌ها" }],
+      [{ text: "سهام" }],
+      [{ text: "سایر" }],
+      [{ text: "🔙 بازگشت" }]
+    ],
+    resize_keyboard: true,
+    is_persistent: true
+  };
+}
+
 async function telegram(env, method, body) {
   const response = await fetch(
     `https://api.telegram.org/bot${env.BOT_TOKEN}/${method}`,
@@ -136,29 +170,16 @@ async function sendPersianMainMenu(env, chatId) {
 async function sendEnglishInstruments(env, chatId) {
   return telegram(env, "sendMessage", {
     chat_id: chatId,
-    text:
-      "📊 Instruments\n\n" +
-      "Select an instrument:\n\n" +
-      "• EURUSD\n" +
-      "• GBPUSD\n" +
-      "• USDJPY\n" +
-      "• XAUUSD\n\n" +
-      "More instruments can be added later.",
-    reply_markup: backKeyboardEnglish()
+    text: "📊 Instruments\n\nPlease select a category:",
+    reply_markup: instrumentsKeyboard()
   });
 }
 
 async function sendPersianInstruments(env, chatId) {
   return telegram(env, "sendMessage", {
     chat_id: chatId,
-    text:
-      "📊 ابزارها\n\n" +
-      "ابزارهای موجود:\n\n" +
-      "• EURUSD\n" +
-      "• GBPUSD\n" +
-      "• USDJPY\n" +
-      "• XAUUSD",
-    reply_markup: backKeyboardPersian()
+    text: "📊 ابزارها\n\nلطفاً یک دسته‌بندی را انتخاب کنید:",
+    reply_markup: instrumentsKeyboardPersian()
   });
 }
 
@@ -333,6 +354,140 @@ async function handleMessage(env, message) {
 
   if (text === "🔙 بازگشت") {
     await sendPersianMainMenu(env, chatId);
+    return;
+  }
+
+  // =========================
+  // Instruments Categories (English)
+  // =========================
+
+  if (text === "Forex Major") {
+    await telegram(env, "sendMessage", {
+      chat_id: chatId,
+      text: "📊 Forex Major\n\n• EURUSD\n• GBPUSD\n• USDJPY\n• USDCHF\n• AUDUSD\n• USDCAD\n• NZDUSD",
+      reply_markup: instrumentsKeyboard()
+    });
+    return;
+  }
+
+  if (text === "Crypto") {
+    await telegram(env, "sendMessage", {
+      chat_id: chatId,
+      text: "📊 Crypto\n\n• BTCUSD\n• ETHUSD\n• XRPUSD\n• SOLUSD\n• BNBUSD",
+      reply_markup: instrumentsKeyboard()
+    });
+    return;
+  }
+
+  if (text === "Energy") {
+    await telegram(env, "sendMessage", {
+      chat_id: chatId,
+      text: "📊 Energy\n\n• USOIL\n• UKOIL\n• NATGAS",
+      reply_markup: instrumentsKeyboard()
+    });
+    return;
+  }
+
+  if (text === "Metals") {
+    await telegram(env, "sendMessage", {
+      chat_id: chatId,
+      text: "📊 Metals\n\n• XAUUSD (Gold)\n• XAGUSD (Silver)\n• XPTUSD (Platinum)\n• XPDUSD (Palladium)",
+      reply_markup: instrumentsKeyboard()
+    });
+    return;
+  }
+
+  if (text === "Indices") {
+    await telegram(env, "sendMessage", {
+      chat_id: chatId,
+      text: "📊 Indices\n\n• USA30\n• USA100\n• USA500\n• US2000\n• GER40\n• UK100\n• JPN225",
+      reply_markup: instrumentsKeyboard()
+    });
+    return;
+  }
+
+  if (text === "Stocks") {
+    await telegram(env, "sendMessage", {
+      chat_id: chatId,
+      text: "📊 Stocks\n\n• AAPL\n• GOOGL\n• TSLA\n• AMZN\n• META\n• MSFT\n• NVDA",
+      reply_markup: instrumentsKeyboard()
+    });
+    return;
+  }
+
+  if (text === "Other") {
+    await telegram(env, "sendMessage", {
+      chat_id: chatId,
+      text: "📊 Other\n\n• DXY (Dollar Index)\n• VIX\n• Other instruments...",
+      reply_markup: instrumentsKeyboard()
+    });
+    return;
+  }
+
+  // =========================
+  // Instruments Categories (Persian)
+  // =========================
+
+  if (text === "فارکس میجر") {
+    await telegram(env, "sendMessage", {
+      chat_id: chatId,
+      text: "📊 فارکس میجر\n\n• EURUSD\n• GBPUSD\n• USDJPY\n• USDCHF\n• AUDUSD\n• USDCAD\n• NZDUSD",
+      reply_markup: instrumentsKeyboardPersian()
+    });
+    return;
+  }
+
+  if (text === "کریپتو") {
+    await telegram(env, "sendMessage", {
+      chat_id: chatId,
+      text: "📊 کریپتو\n\n• BTCUSD\n• ETHUSD\n• XRPUSD\n• SOLUSD\n• BNBUSD",
+      reply_markup: instrumentsKeyboardPersian()
+    });
+    return;
+  }
+
+  if (text === "انرژی") {
+    await telegram(env, "sendMessage", {
+      chat_id: chatId,
+      text: "📊 انرژی\n\n• USOIL\n• UKOIL\n• NATGAS",
+      reply_markup: instrumentsKeyboardPersian()
+    });
+    return;
+  }
+
+  if (text === "فلزات") {
+    await telegram(env, "sendMessage", {
+      chat_id: chatId,
+      text: "📊 فلزات\n\n• XAUUSD (طلا)\n• XAGUSD (نقره)\n• XPTUSD (پلاتین)\n• XPDUSD (پالادیوم)",
+      reply_markup: instrumentsKeyboardPersian()
+    });
+    return;
+  }
+
+  if (text === "شاخص‌ها") {
+    await telegram(env, "sendMessage", {
+      chat_id: chatId,
+      text: "📊 شاخص‌ها\n\n• USA30\n• USA100\n• USA500\n• US2000\n• GER40\n• UK100\n• JPN225",
+      reply_markup: instrumentsKeyboardPersian()
+    });
+    return;
+  }
+
+  if (text === "سهام") {
+    await telegram(env, "sendMessage", {
+      chat_id: chatId,
+      text: "📊 سهام\n\n• AAPL\n• GOOGL\n• TSLA\n• AMZN\n• META\n• MSFT\n• NVDA",
+      reply_markup: instrumentsKeyboardPersian()
+    });
+    return;
+  }
+
+  if (text === "سایر") {
+    await telegram(env, "sendMessage", {
+      chat_id: chatId,
+      text: "📊 سایر\n\n• DXY (شاخص دلار)\n• VIX\n• سایر ابزارها...",
+      reply_markup: instrumentsKeyboardPersian()
+    });
     return;
   }
 }
