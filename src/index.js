@@ -370,22 +370,6 @@ async function sendPersianInstruments(env, chatId) {
   });
 }
 
-async function sendEnglishNews(env, chatId) {
-  return telegram(env, "sendMessage", {
-    chat_id: chatId,
-    text: "📰 News\n\nThe news section is ready.\n\nIt can later be connected to a news API or your own data source.",
-    reply_markup: backKeyboardEnglish()
-  });
-}
-
-async function sendPersianNews(env, chatId) {
-  return telegram(env, "sendMessage", {
-    chat_id: chatId,
-    text: "📰 اخبار\n\nبخش اخبار آماده است و بعداً می‌توان آن را به API متصل کرد.",
-    reply_markup: backKeyboardPersian()
-  });
-}
-
 async function sendEnglishHelp(env, chatId) {
   return telegram(env, "sendMessage", {
     chat_id: chatId,
@@ -442,7 +426,20 @@ async function handleMessage(env, message) {
   }
 
   if (text === "📰 News") {
-    await sendEnglishNews(env, chatId);
+    await telegram(env, "sendMessage", {
+      chat_id: chatId,
+      text: "📰 Economic Calendar\n\nLatest Forex Factory calendar data is available for download.\n\nClick the button below to get the CSV file:",
+      reply_markup: {
+        inline_keyboard: [
+          [
+            {
+              text: "📥 Download Calendar",
+              url: "https://github.com/janickfarrell/newfac/releases/download/calendar-data/forexfactory_calendar.csv"
+            }
+          ]
+        ]
+      }
+    });
     return;
   }
 
@@ -491,7 +488,20 @@ async function handleMessage(env, message) {
   }
 
   if (text === "📰 اخبار") {
-    await sendPersianNews(env, chatId);
+    await telegram(env, "sendMessage", {
+      chat_id: chatId,
+      text: "📰 تقویم اقتصادی\n\nآخرین داده‌های تقویم فارکس فکتوری آماده دانلود است.\n\nبرای دریافت فایل CSV روی دکمه زیر کلیک کنید:",
+      reply_markup: {
+        inline_keyboard: [
+          [
+            {
+              text: "📥 دانلود تقویم",
+              url: "https://github.com/janickfarrell/newfac/releases/download/calendar-data/forexfactory_calendar.csv"
+            }
+          ]
+        ]
+      }
+    });
     return;
   }
 
