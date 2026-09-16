@@ -1,0 +1,9 @@
+name = "telegram-main-menu-bot"
+main = "src/index.js"
+compatibility_date = "2026-09-16"
+
+# The bot uses Telegram webhooks, so no VPS or long-running process is required.
+# After deployment, the GitHub Action sets the webhook automatically.
+
+[observability]
+enabled = true
