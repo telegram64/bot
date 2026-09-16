@@ -99,14 +99,24 @@ function languageKeyboardPersian() {
 function instrumentsKeyboard() {
   return {
     keyboard: [
-      [{ text: "Forex Major" }],
-      [{ text: "Crypto" }],
-      [{ text: "Energy" }],
-      [{ text: "Metals" }],
-      [{ text: "Indices" }],
-      [{ text: "Stocks" }],
-      [{ text: "Other" }],
-      [{ text: "🔙 Back" }]
+      [
+        { text: "Forex Major" },
+        { text: "Crypto" }
+      ],
+      [
+        { text: "Energy" },
+        { text: "Metals" }
+      ],
+      [
+        { text: "Indices" },
+        { text: "Stocks" }
+      ],
+      [
+        { text: "Other" }
+      ],
+      [
+        { text: "🔙 Back" }
+      ]
     ],
     resize_keyboard: true,
     is_persistent: true
@@ -116,14 +126,24 @@ function instrumentsKeyboard() {
 function instrumentsKeyboardPersian() {
   return {
     keyboard: [
-      [{ text: "فارکس میجر" }],
-      [{ text: "کریپتو" }],
-      [{ text: "انرژی" }],
-      [{ text: "فلزات" }],
-      [{ text: "شاخص‌ها" }],
-      [{ text: "سهام" }],
-      [{ text: "سایر" }],
-      [{ text: "🔙 بازگشت" }]
+      [
+        { text: "فارکس میجر" },
+        { text: "کریپتو" }
+      ],
+      [
+        { text: "انرژی" },
+        { text: "فلزات" }
+      ],
+      [
+        { text: "شاخص‌ها" },
+        { text: "سهام" }
+      ],
+      [
+        { text: "سایر" }
+      ],
+      [
+        { text: "🔙 بازگشت" }
+      ]
     ],
     resize_keyboard: true,
     is_persistent: true
