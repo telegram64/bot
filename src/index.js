@@ -113,34 +113,6 @@ function instrumentsKeyboard() {
         { text: "Stocks" }
       ],
       [
-        { text: "Other" }
-      ],
-      [
-        { text: "🔙 Back" },
-        { text: "🏠 Main Menu" }
-      ]
-    ],
-    resize_keyboard: true,
-    is_persistent: true
-  };
-}
-
-function instrumentsKeyboard() {
-  return {
-    keyboard: [
-      [
-        { text: "Forex Major" },
-        { text: "Crypto" }
-      ],
-      [
-        { text: "Energy" },
-        { text: "Metals" }
-      ],
-      [
-        { text: "Indices" },
-        { text: "Stocks" }
-      ],
-      [
         { text: "🔙 Back" },
         { text: "🏠 Main Menu" }
       ]
@@ -600,15 +572,6 @@ async function handleMessage(env, message) {
     return;
   }
 
-  if (text === "Other") {
-    await telegram(env, "sendMessage", {
-      chat_id: chatId,
-      text: "📊 Other\n\nThis section is empty for now.",
-      reply_markup: instrumentsKeyboard()
-    });
-    return;
-  }
-
   // =========================
   // Instruments Categories (Persian)
   // =========================
@@ -663,15 +626,6 @@ async function handleMessage(env, message) {
       chat_id: chatId,
       text: "📊 سهام\n\nیک ابزار را انتخاب کنید:",
       reply_markup: stocksKeyboard()
-    });
-    return;
-  }
-
-  if (text === "سایر") {
-    await telegram(env, "sendMessage", {
-      chat_id: chatId,
-      text: "📊 سایر\n\nاین بخش فعلاً خالی است.",
-      reply_markup: instrumentsKeyboardPersian()
     });
     return;
   }
