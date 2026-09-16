@@ -113,7 +113,8 @@ function instrumentsKeyboard() {
         { text: "Other" }
       ],
       [
-        { text: "🔙 Back" }
+        { text: "🔙 Back" },
+        { text: "🏠 Main Menu" }
       ]
     ],
     resize_keyboard: true,
@@ -140,7 +141,8 @@ function instrumentsKeyboardPersian() {
         { text: "سایر" }
       ],
       [
-        { text: "🔙 بازگشت" }
+        { text: "🔙 بازگشت" },
+        { text: "🏠 منوی اصلی" }
       ]
     ],
     resize_keyboard: true,
@@ -169,7 +171,8 @@ function forexMajorKeyboard() {
         { text: "USDCHF" }
       ],
       [
-        { text: "🔙 Back" }
+        { text: "🔙 Back" },
+        { text: "🏠 Main Menu" }
       ]
     ],
     resize_keyboard: true,
@@ -185,7 +188,8 @@ function cryptoKeyboard() {
         { text: "ETHUSD" }
       ],
       [
-        { text: "🔙 Back" }
+        { text: "🔙 Back" },
+        { text: "🏠 Main Menu" }
       ]
     ],
     resize_keyboard: true,
@@ -205,7 +209,8 @@ function energyKeyboard() {
         { text: "Natural Gas" }
       ],
       [
-        { text: "🔙 Back" }
+        { text: "🔙 Back" },
+        { text: "🏠 Main Menu" }
       ]
     ],
     resize_keyboard: true,
@@ -221,7 +226,8 @@ function metalsKeyboard() {
         { text: "SILVER" }
       ],
       [
-        { text: "🔙 Back" }
+        { text: "🔙 Back" },
+        { text: "🏠 Main Menu" }
       ]
     ],
     resize_keyboard: true,
@@ -241,7 +247,8 @@ function indicesKeyboard() {
         { text: "USA 500 Index" }
       ],
       [
-        { text: "🔙 Back" }
+        { text: "🔙 Back" },
+        { text: "🏠 Main Menu" }
       ]
     ],
     resize_keyboard: true,
@@ -261,7 +268,8 @@ function stocksKeyboard() {
         { text: "JPMORGAN" }
       ],
       [
-        { text: "🔙 Back" }
+        { text: "🔙 Back" },
+        { text: "🏠 Main Menu" }
       ]
     ],
     resize_keyboard: true,
@@ -603,18 +611,28 @@ async function handleMessage(env, message) {
   }
 
   // =========================
-  // Back Buttons
+  // Navigation Buttons
   // =========================
 
+  // English
   if (text === "🔙 Back") {
-    // اگر داخل زیرمنوهای Instruments باشیم، برگرد به منوی Instruments
-    // در غیر این صورت برگرد به منوی اصلی
     await sendEnglishInstruments(env, chatId);
     return;
   }
 
+  if (text === "🏠 Main Menu") {
+    await sendMainMenu(env, chatId);
+    return;
+  }
+
+  // Persian
   if (text === "🔙 بازگشت") {
     await sendPersianInstruments(env, chatId);
+    return;
+  }
+
+  if (text === "🏠 منوی اصلی") {
+    await sendPersianMainMenu(env, chatId);
     return;
   }
 }
