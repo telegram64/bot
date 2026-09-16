@@ -2,112 +2,108 @@ const MAIN_TEXT = "🏠 Main Menu\n\nPlease select an option:";
 
 function mainKeyboard() {
   return {
-    inline_keyboard: [
+    keyboard: [
       [
-        { text: "📊 Instruments", callback_data: "instruments" },
-        { text: "📰 News", callback_data: "news" }
+        { text: "📊 Instruments" },
+        { text: "📰 News" }
       ],
       [
-        { text: "📚 Help", callback_data: "help" },
-        { text: "🌐 Language", callback_data: "language" }
+        { text: "📚 Help" },
+        { text: "🌐 Language" }
       ],
       [
-        { text: "🆘 Support", callback_data: "support" }
+        { text: "🆘 Support" }
       ]
-    ]
-  };
-}
-
-function backKeyboard() {
-  return {
-    inline_keyboard: [
-      [{ text: "🔙 Back", callback_data: "main_menu" }]
-    ]
-  };
-}
-
-function languageKeyboard() {
-  return {
-    inline_keyboard: [
-      [
-        { text: "🇬🇧 English", callback_data: "lang_en" },
-        { text: "🇮🇷 فارسی", callback_data: "lang_fa" }
-      ],
-      [{ text: "🔙 Back", callback_data: "main_menu" }]
-    ]
+    ],
+    resize_keyboard: true,
+    is_persistent: true
   };
 }
 
 function persianMainKeyboard() {
   return {
-    inline_keyboard: [
+    keyboard: [
       [
-        { text: "📊 ابزارها", callback_data: "instruments_fa" },
-        { text: "📰 اخبار", callback_data: "news_fa" }
+        { text: "📊 ابزارها" },
+        { text: "📰 اخبار" }
       ],
       [
-        { text: "📚 راهنما", callback_data: "help_fa" },
-        { text: "🌐 زبان", callback_data: "language" }
+        { text: "📚 راهنما" },
+        { text: "🌐 زبان" }
       ],
       [
-        { text: "🆘 پشتیبانی", callback_data: "support_fa" }
+        { text: "🆘 پشتیبانی" }
       ]
-    ]
+    ],
+    resize_keyboard: true,
+    is_persistent: true
   };
 }
 
-function persianBackKeyboard() {
+function backKeyboardEnglish() {
   return {
-    inline_keyboard: [
-      [{ text: "🔙 بازگشت", callback_data: "main_menu_fa" }]
-    ]
+    keyboard: [
+      [
+        { text: "🔙 Back" }
+      ]
+    ],
+    resize_keyboard: true,
+    is_persistent: true
   };
 }
 
-const pages = {
-  instruments: {
-    text:
-      "📊 Instruments\n\n" +
-      "Select an instrument:\n\n" +
-      "• EURUSD\n" +
-      "• GBPUSD\n" +
-      "• USDJPY\n" +
-      "• XAUUSD\n\n" +
-      "More instruments can be added later.",
-    keyboard: backKeyboard
-  },
-  news: {
-    text:
-      "📰 News\n\n" +
-      "The news section is ready.\n\n" +
-      "It can later be connected to a news API or your own data source.",
-    keyboard: backKeyboard
-  },
-  help: {
-    text:
-      "📚 Help\n\n" +
-      "Use the buttons below to navigate through the bot.\n\n" +
-      "📊 Instruments — trading instruments\n" +
-      "📰 News — news section\n" +
-      "🌐 Language — language selection\n" +
-      "🆘 Support — support information",
-    keyboard: backKeyboard
-  },
-  support: {
-    text:
-      "🆘 Support\n\n" +
-      "For support, contact the administrator.\n\n" +
-      "Replace this text with your own support username, channel or contact information.",
-    keyboard: backKeyboard
-  }
-};
+function backKeyboardPersian() {
+  return {
+    keyboard: [
+      [
+        { text: "🔙 بازگشت" }
+      ]
+    ],
+    resize_keyboard: true,
+    is_persistent: true
+  };
+}
+
+function languageKeyboard() {
+  return {
+    keyboard: [
+      [
+        { text: "🇬🇧 English" },
+        { text: "🇮🇷 فارسی" }
+      ],
+      [
+        { text: "🔙 Back" }
+      ]
+    ],
+    resize_keyboard: true,
+    is_persistent: true
+  };
+}
+
+function languageKeyboardPersian() {
+  return {
+    keyboard: [
+      [
+        { text: "🇬🇧 English" },
+        { text: "🇮🇷 فارسی" }
+      ],
+      [
+        { text: "🔙 بازگشت" }
+      ]
+    ],
+    resize_keyboard: true,
+    is_persistent: true
+  };
+}
 
 async function telegram(env, method, body) {
   const response = await fetch(
     `https://api.telegram.org/bot${env.BOT_TOKEN}/${method}`,
     {
       method: "POST",
-      headers: { "content-type": "application/json" },
+      headers: {
+        "content-type": "application/json"
+      },
       body: JSON.stringify(body)
     }
   );
@@ -129,143 +125,274 @@ async function sendMainMenu(env, chatId) {
   });
 }
 
-async function edit(env, query, text, keyboard) {
-  return telegram(env, "editMessageText", {
-    chat_id: query.message.chat.id,
-    message_id: query.message.message_id,
-    text,
-    reply_markup: keyboard
+async function sendPersianMainMenu(env, chatId) {
+  return telegram(env, "sendMessage", {
+    chat_id: chatId,
+    text: "🏠 منوی اصلی\n\nلطفاً یک گزینه را انتخاب کنید:",
+    reply_markup: persianMainKeyboard()
   });
 }
 
-async function callbackAnswer(env, callbackQueryId) {
-  return telegram(env, "answerCallbackQuery", {
-    callback_query_id: callbackQueryId
+async function sendEnglishInstruments(env, chatId) {
+  return telegram(env, "sendMessage", {
+    chat_id: chatId,
+    text:
+      "📊 Instruments\n\n" +
+      "Select an instrument:\n\n" +
+      "• EURUSD\n" +
+      "• GBPUSD\n" +
+      "• USDJPY\n" +
+      "• XAUUSD\n\n" +
+      "More instruments can be added later.",
+    reply_markup: backKeyboardEnglish()
   });
 }
 
-async function handleCallback(env, query) {
-  await callbackAnswer(env, query.id);
-
-  const data = query.data;
-
-  if (data === "main_menu") {
-    return edit(env, query, MAIN_TEXT, mainKeyboard());
-  }
-
-  if (data === "instruments_fa") {
-    return edit(
-      env,
-      query,
+async function sendPersianInstruments(env, chatId) {
+  return telegram(env, "sendMessage", {
+    chat_id: chatId,
+    text:
       "📊 ابزارها\n\n" +
-        "ابزارهای موجود:\n\n" +
-        "• EURUSD\n" +
-        "• GBPUSD\n" +
-        "• USDJPY\n" +
-        "• XAUUSD",
-      persianBackKeyboard()
-    );
+      "ابزارهای موجود:\n\n" +
+      "• EURUSD\n" +
+      "• GBPUSD\n" +
+      "• USDJPY\n" +
+      "• XAUUSD",
+    reply_markup: backKeyboardPersian()
+  });
+}
+
+async function sendEnglishNews(env, chatId) {
+  return telegram(env, "sendMessage", {
+    chat_id: chatId,
+    text:
+      "📰 News\n\n" +
+      "The news section is ready.\n\n" +
+      "It can later be connected to a news API or your own data source.",
+    reply_markup: backKeyboardEnglish()
+  });
+}
+
+async function sendPersianNews(env, chatId) {
+  return telegram(env, "sendMessage", {
+    chat_id: chatId,
+    text:
+      "📰 اخبار\n\n" +
+      "بخش اخبار آماده است و بعداً می‌توان آن را به API متصل کرد.",
+    reply_markup: backKeyboardPersian()
+  });
+}
+
+async function sendEnglishHelp(env, chatId) {
+  return telegram(env, "sendMessage", {
+    chat_id: chatId,
+    text:
+      "📚 Help\n\n" +
+      "Use the buttons below to navigate through the bot.\n\n" +
+      "📊 Instruments — trading instruments\n" +
+      "📰 News — news section\n" +
+      "🌐 Language — language selection\n" +
+      "🆘 Support — support information",
+    reply_markup: backKeyboardEnglish()
+  });
+}
+
+async function sendPersianHelp(env, chatId) {
+  return telegram(env, "sendMessage", {
+    chat_id: chatId,
+    text:
+      "📚 راهنما\n\n" +
+      "از دکمه‌های منو برای استفاده از بات استفاده کنید.\n\n" +
+      "📊 ابزارها — ابزارهای معاملاتی\n" +
+      "📰 اخبار — بخش اخبار\n" +
+      "🌐 زبان — انتخاب زبان\n" +
+      "🆘 پشتیبانی — اطلاعات پشتیبانی",
+    reply_markup: backKeyboardPersian()
+  });
+}
+
+async function sendEnglishSupport(env, chatId) {
+  return telegram(env, "sendMessage", {
+    chat_id: chatId,
+    text:
+      "🆘 Support\n\n" +
+      "For support, contact the administrator.\n\n" +
+      "Replace this text with your own support username, channel or contact information.",
+    reply_markup: backKeyboardEnglish()
+  });
+}
+
+async function sendPersianSupport(env, chatId) {
+  return telegram(env, "sendMessage", {
+    chat_id: chatId,
+    text:
+      "🆘 پشتیبانی\n\n" +
+      "اطلاعات تماس پشتیبانی را می‌توانید در همین Worker تغییر دهید.",
+    reply_markup: backKeyboardPersian()
+  });
+}
+
+async function handleMessage(env, message) {
+  const chatId = message.chat.id;
+  const text = message.text;
+
+  if (!text) {
+    return;
   }
 
-  if (data === "news_fa") {
-    return edit(
-      env,
-      query,
-      "📰 اخبار\n\nبخش اخبار آماده است و بعداً می‌توان آن را به API متصل کرد.",
-      persianBackKeyboard()
-    );
+  // /start
+  if (text === "/start") {
+    await sendMainMenu(env, chatId);
+    return;
   }
 
-  if (data === "help_fa") {
-    return edit(
-      env,
-      query,
-      "📚 راهنما\n\nاز دکمه‌های منو برای استفاده از بات استفاده کنید.",
-      persianBackKeyboard()
-    );
+  // =========================
+  // English menu
+  // =========================
+
+  if (text === "📊 Instruments") {
+    await sendEnglishInstruments(env, chatId);
+    return;
   }
 
-  if (data === "support_fa") {
-    return edit(
-      env,
-      query,
-      "🆘 پشتیبانی\n\nاطلاعات تماس پشتیبانی را می‌توانید در همین Worker تغییر دهید.",
-      persianBackKeyboard()
-    );
+  if (text === "📰 News") {
+    await sendEnglishNews(env, chatId);
+    return;
   }
 
-  if (data === "main_menu_fa") {
-    return edit(
-      env,
-      query,
-      "🏠 منوی اصلی\n\nلطفاً یک گزینه را انتخاب کنید:",
-      persianMainKeyboard()
-    );
+  if (text === "📚 Help") {
+    await sendEnglishHelp(env, chatId);
+    return;
   }
 
-  if (data === "instruments" || data === "news" || data === "help" || data === "support") {
-    const page = pages[data];
-    return edit(env, query, page.text, page.keyboard());
+  if (text === "🆘 Support") {
+    await sendEnglishSupport(env, chatId);
+    return;
   }
 
-  if (data === "language") {
-    return edit(
-      env,
-      query,
-      "🌐 Language\n\nPlease select your language:",
-      languageKeyboard()
-    );
+  if (text === "🌐 Language") {
+    await telegram(env, "sendMessage", {
+      chat_id: chatId,
+      text: "🌐 Language\n\nPlease select your language:",
+      reply_markup: languageKeyboard()
+    });
+    return;
   }
 
-  if (data === "lang_en") {
-    return edit(env, query, "🇬🇧 English selected.\n\n" + MAIN_TEXT, mainKeyboard());
+  if (text === "🔙 Back") {
+    await sendMainMenu(env, chatId);
+    return;
   }
 
-  if (data === "lang_fa") {
-    return edit(
-      env,
-      query,
-      "🇮🇷 فارسی انتخاب شد.\n\n🏠 منوی اصلی\n\nلطفاً یک گزینه را انتخاب کنید:",
-      persianMainKeyboard()
-    );
+  // =========================
+  // Language
+  // =========================
+
+  if (text === "🇬🇧 English") {
+    await sendMainMenu(env, chatId);
+    return;
   }
 
-  return null;
+  if (text === "🇮🇷 فارسی") {
+    await sendPersianMainMenu(env, chatId);
+    return;
+  }
+
+  // =========================
+  // Persian menu
+  // =========================
+
+  if (text === "📊 ابزارها") {
+    await sendPersianInstruments(env, chatId);
+    return;
+  }
+
+  if (text === "📰 اخبار") {
+    await sendPersianNews(env, chatId);
+    return;
+  }
+
+  if (text === "📚 راهنما") {
+    await sendPersianHelp(env, chatId);
+    return;
+  }
+
+  if (text === "🆘 پشتیبانی") {
+    await sendPersianSupport(env, chatId);
+    return;
+  }
+
+  if (text === "🌐 زبان") {
+    await telegram(env, "sendMessage", {
+      chat_id: chatId,
+      text: "🌐 زبان\n\nلطفاً زبان موردنظر را انتخاب کنید:",
+      reply_markup: languageKeyboardPersian()
+    });
+    return;
+  }
+
+  if (text === "🔙 بازگشت") {
+    await sendPersianMainMenu(env, chatId);
+    return;
+  }
 }
 
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
+    // Health check
     if (request.method === "GET" && url.pathname === "/") {
-      return new Response("Telegram bot is running on Cloudflare Workers.");
+      return new Response(
+        "Telegram bot is running on Cloudflare Workers."
+      );
     }
 
+    // Telegram webhook
     if (request.method !== "POST" || url.pathname !== "/webhook") {
-      return new Response("Not Found", { status: 404 });
+      return new Response("Not Found", {
+        status: 404
+      });
     }
 
-    const secret = request.headers.get("X-Telegram-Bot-Api-Secret-Token");
-    if (env.WEBHOOK_SECRET && secret !== env.WEBHOOK_SECRET) {
-      return new Response("Unauthorized", { status: 401 });
+    // Verify Telegram webhook secret
+    const secret = request.headers.get(
+      "X-Telegram-Bot-Api-Secret-Token"
+    );
+
+    if (
+      env.WEBHOOK_SECRET &&
+      secret !== env.WEBHOOK_SECRET
+    ) {
+      return new Response("Unauthorized", {
+        status: 401
+      });
     }
 
     let update;
+
     try {
       update = await request.json();
     } catch {
-      return new Response("Bad Request", { status: 400 });
+      return new Response("Bad Request", {
+        status: 400
+      });
     }
 
     try {
-      if (update.message?.text === "/start") {
-        await sendMainMenu(env, update.message.chat.id);
-      } else if (update.callback_query) {
-        await handleCallback(env, update.callback_query);
+      // Normal messages
+      if (update.message) {
+        await handleMessage(env, update.message);
       }
+
     } catch (error) {
-      console.error("Update processing error:", error);
-      // Return 200 so Telegram does not repeatedly resend a malformed update.
+      console.error(
+        "Update processing error:",
+        error
+      );
+
+      // Return 200 so Telegram does not repeatedly
+      // resend the same update.
     }
 
     return new Response("OK");
